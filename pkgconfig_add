@@ -1,0 +1,8 @@
+# This file contains additional pkgconfig build requirements that did
+# not get picked up automatically. One name per line, no whitespace.
+libxml-2.0
+libcroco-0.6
+libxml-2.0
+32libxml-2.0
+32libcroco-0.6
+32libxml-2.0

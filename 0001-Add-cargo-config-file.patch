@@ -1,0 +1,36 @@
+From ee549ade0f45527f0a997f4702e1250dc2c79d08 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Fri, 12 Jan 2018 21:57:56 +0000
+Subject: [PATCH] Add cargo config file
+
+In order to use the vendored sources, add a cargo configuration file
+specifying their location.
+---
+ rust/.cargo/config     | 6 ++++++
+ rust/vendor/.gitignore | 1 +
+ 2 files changed, 7 insertions(+)
+ create mode 100644 rust/.cargo/config
+ create mode 100644 rust/vendor/.gitignore
+
+diff --git a/rust/.cargo/config b/rust/.cargo/config
+new file mode 100644
+index 0000000..f8df83e
+--- /dev/null
++++ b/rust/.cargo/config
+@@ -0,0 +1,6 @@
++[source.crates-io]
++registry = 'https://github.com/rust-lang/crates.io-index'
++replace-with = 'vendored-sources'
++
++[source.vendored-sources]
++directory = './vendor'
+diff --git a/rust/vendor/.gitignore b/rust/vendor/.gitignore
+new file mode 100644
+index 0000000..26a4576
+--- /dev/null
++++ b/rust/vendor/.gitignore
+@@ -0,0 +1 @@
++#empty to get directory created
+-- 
+2.15.1
+

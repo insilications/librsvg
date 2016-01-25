@@ -1,0 +1,1 @@
+CARGO_TARGET_ARGS=--target=i586-unknown-linux-gnu RUST_LIB=rust/target/i586-unknown-linux-gnu/release/librsvg_internals.a
