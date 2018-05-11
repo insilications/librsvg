@@ -9,3 +9,5 @@ zlib-dev
 freetype-dev
 freetype-dev32
 rust-std32
+gtk3-dev
+gtk3-dev32
