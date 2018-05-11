@@ -1,6 +1,4 @@
-Configure miss: gtk+-3.0 >= 3.10.0
 Configure miss: whether to build Rust code with debugging information
 Configure miss: vala
-Configure miss: gtk+-3.0 >= 3.10.0
 Configure miss: whether to build Rust code with debugging information
 Configure miss: vala

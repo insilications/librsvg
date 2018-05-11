@@ -4,7 +4,7 @@
 #
 Name     : librsvg
 Version  : 2.42.0
-Release  : 25
+Release  : 26
 URL      : https://github.com/GNOME/librsvg/archive/2.42.0.tar.gz
 Source0  : https://github.com/GNOME/librsvg/archive/2.42.0.tar.gz
 Source1  : http://localhost/cgit/projects/cargo-librsvg/snapshot/cargo-librsvg-2.42.0.tar.gz
@@ -15,10 +15,14 @@ Requires: librsvg-bin
 Requires: librsvg-lib
 Requires: librsvg-data
 Requires: librsvg-doc
+BuildRequires : atk-dev
+BuildRequires : atk-dev32
 BuildRequires : cargo
 BuildRequires : docbook-xml
 BuildRequires : freetype-dev
 BuildRequires : freetype-dev32
+BuildRequires : fribidi-dev
+BuildRequires : fribidi-dev32
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
@@ -28,8 +32,12 @@ BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
+BuildRequires : gtk3-dev
+BuildRequires : gtk3-dev32
+BuildRequires : libpng-dev
 BuildRequires : libpng-dev32
 BuildRequires : libxslt-bin
+BuildRequires : pango-dev
 BuildRequires : pango-dev32
 BuildRequires : pkgconfig(32cairo)
 BuildRequires : pkgconfig(32cairo-png)
@@ -149,11 +157,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1516303941
-export CFLAGS="$CFLAGS -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1526071522
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %autogen --disable-static --enable-introspection
 make  %{?_smp_mflags}
 
@@ -173,7 +181,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1516303941
+export SOURCE_DATE_EPOCH=1526071522
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32  RUST_LIB=rust/target/i586-unknown-linux-gnu/release/librsvg_internals.a
@@ -193,6 +201,7 @@ popd
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/rsvg-convert
+/usr/bin/rsvg-view-3
 
 %files data
 %defattr(-,root,root,-)
