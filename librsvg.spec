@@ -4,7 +4,7 @@
 #
 Name     : librsvg
 Version  : 2.42.0
-Release  : 26
+Release  : 27
 URL      : https://github.com/GNOME/librsvg/archive/2.42.0.tar.gz
 Source0  : https://github.com/GNOME/librsvg/archive/2.42.0.tar.gz
 Source1  : http://localhost/cgit/projects/cargo-librsvg/snapshot/cargo-librsvg-2.42.0.tar.gz
