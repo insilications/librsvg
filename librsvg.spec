@@ -4,7 +4,7 @@
 #
 Name     : librsvg
 Version  : 2.45.5
-Release  : 31
+Release  : 33
 URL      : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.5.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.5.tar.xz
 Summary  : library that renders svg files
@@ -112,6 +112,18 @@ Provides: librsvg-devel = %{version}-%{release}
 dev components for the librsvg package.
 
 
+%package dev32
+Summary: dev32 components for the librsvg package.
+Group: Default
+Requires: librsvg-lib32 = %{version}-%{release}
+Requires: librsvg-bin = %{version}-%{release}
+Requires: librsvg-data = %{version}-%{release}
+Requires: librsvg-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the librsvg package.
+
+
 %package doc
 Summary: doc components for the librsvg package.
 Group: Documentation
@@ -176,7 +188,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551908129
+export SOURCE_DATE_EPOCH=1551918093
 export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -191,7 +203,7 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
-%configure --disable-static --enable-introspection ; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --host=i586-unknown-linux-gnu --build=i586-unknown-linux-gnu --target=i586-unknown-linux-gnu --program-prefix= --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin --sbindir=/usr/bin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib64 --libexecdir=/usr/libexec --localstatedir=/var --sharedstatedir=/usr/com --mandir=/usr/share/man --infodir=/usr/share/info --disable-static --enable-introspection #  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --enable-introspection ; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --enable-introspection  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags} CARGO_TARGET_ARGS=--target=i586-unknown-linux-gnu
 popd
 %check
@@ -204,7 +216,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1551908129
+export SOURCE_DATE_EPOCH=1551918093
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp COPYING %{buildroot}/usr/share/package-licenses/librsvg/COPYING
@@ -463,6 +475,7 @@ popd
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/girepository-1.0/Rsvg-2.0.typelib
 
 %files bin
 %defattr(-,root,root,-)
@@ -482,6 +495,12 @@ popd
 /usr/include/librsvg-2.0/librsvg/rsvg.h
 /usr/lib64/librsvg-2.so
 /usr/lib64/pkgconfig/librsvg-2.0.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/librsvg-2.so
+/usr/lib32/pkgconfig/32librsvg-2.0.pc
+/usr/lib32/pkgconfig/librsvg-2.0.pc
 
 %files doc
 %defattr(0644,root,root,0755)
@@ -517,6 +536,8 @@ popd
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+/usr/lib32/librsvg-2.so.2
+/usr/lib32/librsvg-2.so.2.46.0
 
 %files license
 %defattr(0644,root,root,0755)

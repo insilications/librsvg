@@ -2,10 +2,5 @@ Configure miss: whether to build Rust code with debugging information
 Configure miss: vala
 Configure miss: whether to build Rust code with debugging information
 Configure miss: vala
-Configure miss: i586-unknown-linux-gnu-strip
-Configure miss: i586-unknown-linux-gnu-pkg-config
-Configure miss: i586-unknown-linux-gnu-objdump
-Configure miss: i586-unknown-linux-gnu-dlltool
-Configure miss: i586-unknown-linux-gnu-mt
 Configure miss: whether to build Rust code with debugging information
 Configure miss: vala
