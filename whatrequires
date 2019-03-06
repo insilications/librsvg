@@ -1,17 +1,5 @@
 # This file contains recursive sources that require this package
 adwaita-icon-theme
 babl
-cheese
-faba-icon-theme
 gdk-pixbuf
-gedit
-gimp
-gnome-photos
-gst-plugins-good
-gtk+
-hexchat
-libmediaart
-moka-icon-theme
-spice-gtk
-totem
-virt-viewer
+octave

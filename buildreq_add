@@ -2,7 +2,6 @@
 # picked up automatically. One name per line, no whitespace.
 atk-dev
 atk-dev32
-cargo
 freetype-dev
 freetype-dev32
 fribidi-dev
@@ -16,5 +15,6 @@ libpng-dev32
 pango-dev
 pango-dev32
 rust-std32
+rustc
 zlib-dev
 zlib-dev32
