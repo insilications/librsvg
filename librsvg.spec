@@ -4,10 +4,10 @@
 #
 Name     : librsvg
 Version  : 2.45.5
-Release  : 33
+Release  : 34
 URL      : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.5.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.5.tar.xz
-Summary  : library that renders svg files
+Summary  : SVG rendering library
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause BSL-1.0 GPL-2.0 ICU LGPL-2.0 MIT MPL-2.0-no-copyleft-exception Unlicense
 Requires: librsvg-bin = %{version}-%{release}
@@ -79,8 +79,11 @@ BuildRequires : zlib-dev
 BuildRequires : zlib-dev32
 
 %description
-Test data was taken from the Go distribution, which was in turn taken from the
-testregex test suite:
+This crate provides an implementation of the
+[Aho-Corasick](http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm)
+algorithm. Its intended use case is for fast substring matching, particularly
+when matching multiple substrings in a search text. This is achieved by
+compiling the substrings into a finite state machine.
 
 %package bin
 Summary: bin components for the librsvg package.
@@ -107,6 +110,7 @@ Requires: librsvg-lib = %{version}-%{release}
 Requires: librsvg-bin = %{version}-%{release}
 Requires: librsvg-data = %{version}-%{release}
 Provides: librsvg-devel = %{version}-%{release}
+Requires: librsvg = %{version}-%{release}
 
 %description dev
 dev components for the librsvg package.
@@ -188,12 +192,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551918093
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1557017799
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
 %configure --disable-static --enable-introspection
 make  %{?_smp_mflags}
 
@@ -216,7 +222,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1551918093
+export SOURCE_DATE_EPOCH=1557017799
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp COPYING %{buildroot}/usr/share/package-licenses/librsvg/COPYING
@@ -361,6 +367,7 @@ cp vendor/rand/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/ve
 cp vendor/rand/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_LICENSE-MIT
 cp vendor/rand_core-0.2.2/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_core-0.2.2_LICENSE-APACHE
 cp vendor/rand_core-0.2.2/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_core-0.2.2_LICENSE-MIT
+cp vendor/rand_core/COPYRIGHT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_core_COPYRIGHT
 cp vendor/rand_core/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_core_LICENSE-APACHE
 cp vendor/rand_core/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rand_core_LICENSE-MIT
 cp vendor/rawpointer/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rawpointer_LICENSE-APACHE
@@ -683,6 +690,7 @@ popd
 /usr/share/package-licenses/librsvg/vendor_rand_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_rand_core-0.2.2_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_rand_core-0.2.2_LICENSE-MIT
+/usr/share/package-licenses/librsvg/vendor_rand_core_COPYRIGHT
 /usr/share/package-licenses/librsvg/vendor_rand_core_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_rand_core_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_rawpointer_LICENSE-APACHE
