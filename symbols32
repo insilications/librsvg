@@ -9,7 +9,8 @@ librsvg-2.so.2:rsvg_handle_get_base_uri
 librsvg-2.so.2:rsvg_handle_get_desc
 librsvg-2.so.2:rsvg_handle_get_dimensions
 librsvg-2.so.2:rsvg_handle_get_dimensions_sub
-librsvg-2.so.2:rsvg_handle_get_geometry_sub
+librsvg-2.so.2:rsvg_handle_get_geometry_for_element
+librsvg-2.so.2:rsvg_handle_get_intrinsic_dimensions
 librsvg-2.so.2:rsvg_handle_get_metadata
 librsvg-2.so.2:rsvg_handle_get_pixbuf
 librsvg-2.so.2:rsvg_handle_get_pixbuf_sub
