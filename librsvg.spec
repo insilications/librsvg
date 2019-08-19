@@ -4,10 +4,10 @@
 #
 Name     : librsvg
 Version  : 2.45.7
-Release  : 36
+Release  : 37
 URL      : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.7.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.45/librsvg-2.45.7.tar.xz
-Summary  : SVG rendering library
+Summary  : library that renders svg files
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause BSL-1.0 GPL-2.0 HPND ICU LGPL-2.0 MIT MPL-2.0-no-copyleft-exception Unlicense
 Requires: librsvg-bin = %{version}-%{release}
@@ -79,11 +79,13 @@ BuildRequires : zlib-dev
 BuildRequires : zlib-dev32
 
 %description
-This crate provides an implementation of the
-[Aho-Corasick](http://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm)
-algorithm. Its intended use case is for fast substring matching, particularly
-when matching multiple substrings in a search text. This is achieved by
-compiling the substrings into a finite state machine.
+Librsvg
+=======
+This is librsvg - A small library to render Scalable Vector Graphics
+([SVG][svg]), associated with the [GNOME Project][gnome].  It renders
+SVG files to [Cairo][cairo] surfaces.  Cairo is the 2D, antialiased
+drawing library that GNOME uses to draw things to the screen or to
+generate output for printing.
 
 %package bin
 Summary: bin components for the librsvg package.
@@ -110,7 +112,6 @@ Requires: librsvg-lib = %{version}-%{release}
 Requires: librsvg-bin = %{version}-%{release}
 Requires: librsvg-data = %{version}-%{release}
 Provides: librsvg-devel = %{version}-%{release}
-Requires: librsvg = %{version}-%{release}
 Requires: librsvg = %{version}-%{release}
 
 %description dev
@@ -193,16 +194,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562228132
+export SOURCE_DATE_EPOCH=1566249322
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-%configure --disable-static --enable-introspection
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+%configure --disable-static --enable-introspection --enable-vala
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -211,7 +212,7 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
-%configure --disable-static --enable-introspection ; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --enable-introspection  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --enable-introspection --enable-vala ; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --enable-introspection  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags} CARGO_TARGET_ARGS=--target=i586-unknown-linux-gnu
 popd
 %check
@@ -224,7 +225,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1562228132
+export SOURCE_DATE_EPOCH=1566249322
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp COPYING %{buildroot}/usr/share/package-licenses/librsvg/COPYING
@@ -256,6 +257,8 @@ cp vendor/cast/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendo
 cp vendor/cfg-if/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_cfg-if_LICENSE-APACHE
 cp vendor/cfg-if/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_cfg-if_LICENSE-MIT
 cp vendor/clap/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_clap_LICENSE-MIT
+cp vendor/criterion-plot/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_criterion-plot_LICENSE-APACHE
+cp vendor/criterion-plot/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_criterion-plot_LICENSE-MIT
 cp vendor/criterion/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_criterion_LICENSE-APACHE
 cp vendor/criterion/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_criterion_LICENSE-MIT
 cp vendor/crossbeam-deque/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_crossbeam-deque_LICENSE-APACHE
@@ -317,6 +320,7 @@ cp vendor/locale_config/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/
 cp vendor/log/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_log_LICENSE-APACHE
 cp vendor/log/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_log_LICENSE-MIT
 cp vendor/markup5ever/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_markup5ever_LICENSE-APACHE
+cp vendor/markup5ever/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_markup5ever_LICENSE-MIT
 cp vendor/matches/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/vendor_matches_LICENSE
 cp vendor/matrixmultiply/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_matrixmultiply_LICENSE-APACHE
 cp vendor/matrixmultiply/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_matrixmultiply_LICENSE-MIT
@@ -391,6 +395,7 @@ cp vendor/rayon-core/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/libr
 cp vendor/rayon-core/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rayon-core_LICENSE-MIT
 cp vendor/rayon/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rayon_LICENSE-APACHE
 cp vendor/rayon/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/vendor_rayon_LICENSE-MIT
+cp vendor/rctree/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rctree_LICENSE
 cp vendor/rdrand/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/vendor_rdrand_LICENSE
 cp vendor/redox_syscall/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/vendor_redox_syscall_LICENSE
 cp vendor/redox_termios/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/vendor_redox_termios_LICENSE
@@ -489,6 +494,7 @@ popd
 /usr/lib64/girepository-1.0/Rsvg-2.0.typelib
 /usr/share/gir-1.0/*.gir
 /usr/share/thumbnailers/librsvg.thumbnailer
+/usr/share/vala/vapi/librsvg-2.0.vapi
 
 %files dev
 %defattr(-,root,root,-)
@@ -572,6 +578,8 @@ popd
 /usr/share/package-licenses/librsvg/vendor_cfg-if_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_cfg-if_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_clap_LICENSE-MIT
+/usr/share/package-licenses/librsvg/vendor_criterion-plot_LICENSE-APACHE
+/usr/share/package-licenses/librsvg/vendor_criterion-plot_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_criterion_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_criterion_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_crossbeam-deque_LICENSE-APACHE
@@ -633,6 +641,7 @@ popd
 /usr/share/package-licenses/librsvg/vendor_log_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_log_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_markup5ever_LICENSE-APACHE
+/usr/share/package-licenses/librsvg/vendor_markup5ever_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_matches_LICENSE
 /usr/share/package-licenses/librsvg/vendor_matrixmultiply_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_matrixmultiply_LICENSE-MIT
@@ -707,6 +716,7 @@ popd
 /usr/share/package-licenses/librsvg/vendor_rayon-core_LICENSE-MIT
 /usr/share/package-licenses/librsvg/vendor_rayon_LICENSE-APACHE
 /usr/share/package-licenses/librsvg/vendor_rayon_LICENSE-MIT
+/usr/share/package-licenses/librsvg/vendor_rctree_LICENSE
 /usr/share/package-licenses/librsvg/vendor_rdrand_LICENSE
 /usr/share/package-licenses/librsvg/vendor_redox_syscall_LICENSE
 /usr/share/package-licenses/librsvg/vendor_redox_termios_LICENSE
