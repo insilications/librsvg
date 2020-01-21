@@ -4,10 +4,10 @@
 #
 Name     : librsvg
 Version  : 2.47.0
-Release  : 42
+Release  : 43
 URL      : https://download.gnome.org/sources/librsvg/2.47/librsvg-2.47.0.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.47/librsvg-2.47.0.tar.xz
-Summary  : SVG rendering library
+Summary  : library that renders svg files
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause BSL-1.0 HPND ICU LGPL-2.1 MIT MPL-2.0-no-copyleft-exception Unlicense
 Requires: librsvg-bin = %{version}-%{release}
@@ -54,6 +54,7 @@ BuildRequires : pkgconfig(32gio-unix-2.0)
 BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32gmodule-2.0)
 BuildRequires : pkgconfig(32gthread-2.0)
+BuildRequires : pkgconfig(32harfbuzz)
 BuildRequires : pkgconfig(32libcroco-0.6)
 BuildRequires : pkgconfig(32libxml-2.0)
 BuildRequires : pkgconfig(32pangocairo)
@@ -69,6 +70,7 @@ BuildRequires : pkgconfig(gio-unix-2.0)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gmodule-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
+BuildRequires : pkgconfig(harfbuzz)
 BuildRequires : pkgconfig(libcroco-0.6)
 BuildRequires : pkgconfig(libxml-2.0)
 BuildRequires : pkgconfig(pangocairo)
@@ -81,12 +83,8 @@ BuildRequires : zlib-dev
 BuildRequires : zlib-dev32
 
 %description
-# Introduction: the sleep module
-The code in this module governs when worker threads should go to
-sleep. This is a tricky topic -- the work-stealing algorithm relies on
-having active worker threads running around stealing from one
-another. But, if there isn't a lot of work, this can be a bit of a
-drag, because it requires high CPU usage.
+Test data was taken from the Go distribution, which was in turn taken from the
+testregex test suite:
 
 %package bin
 Summary: bin components for the librsvg package.
@@ -113,7 +111,6 @@ Requires: librsvg-lib = %{version}-%{release}
 Requires: librsvg-bin = %{version}-%{release}
 Requires: librsvg-data = %{version}-%{release}
 Provides: librsvg-devel = %{version}-%{release}
-Requires: librsvg = %{version}-%{release}
 Requires: librsvg = %{version}-%{release}
 
 %description dev
@@ -187,6 +184,7 @@ man components for the librsvg package.
 
 %prep
 %setup -q -n librsvg-2.47.0
+cd %{_builddir}/librsvg-2.47.0
 pushd ..
 cp -a librsvg-2.47.0 build32
 popd
@@ -196,16 +194,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1572804866
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1579638214
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-introspection --enable-vala
 make  %{?_smp_mflags}
 
@@ -228,7 +225,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1572804866
+export SOURCE_DATE_EPOCH=1579638214
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp %{_builddir}/librsvg-2.47.0/COPYING.LIB %{buildroot}/usr/share/package-licenses/librsvg/01a6b4bf79aca9b556822601186afab86e8c4fbf
@@ -251,6 +248,8 @@ cp %{_builddir}/librsvg-2.47.0/vendor/bstr/LICENSE-MIT %{buildroot}/usr/share/pa
 cp %{_builddir}/librsvg-2.47.0/vendor/byteorder/COPYING %{buildroot}/usr/share/package-licenses/librsvg/dd445710e6e4caccc4f8a587a130eaeebe83f6f6
 cp %{_builddir}/librsvg-2.47.0/vendor/byteorder/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/4c8990add9180fc59efa5b0d8faf643c9709501e
 cp %{_builddir}/librsvg-2.47.0/vendor/byteorder/UNLICENSE %{buildroot}/usr/share/package-licenses/librsvg/ff007ce11f3ff7964f1a5b04202c4e95b5c82c85
+cp %{_builddir}/librsvg-2.47.0/vendor/c2-chacha/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/088830dcb78eba1a2052df69bd5cba5445e8f2d7
+cp %{_builddir}/librsvg-2.47.0/vendor/c2-chacha/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/e1c86f32641f01a5b85d6e9b20138e8470b883fc
 cp %{_builddir}/librsvg-2.47.0/vendor/cairo-rs/COPYRIGHT %{buildroot}/usr/share/package-licenses/librsvg/6b921d29bba26338f55924223e5fc2a7c30c8355
 cp %{_builddir}/librsvg-2.47.0/vendor/cairo-rs/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/c5af5501a367480504c8f5e55c82a3d76105a72a
 cp %{_builddir}/librsvg-2.47.0/vendor/cairo-sys-rs/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/c5af5501a367480504c8f5e55c82a3d76105a72a
@@ -357,6 +356,8 @@ cp %{_builddir}/librsvg-2.47.0/vendor/percent-encoding/LICENSE-APACHE %{buildroo
 cp %{_builddir}/librsvg-2.47.0/vendor/percent-encoding/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/738188f5fed28a950b0fede659706238ec35f8bb
 cp %{_builddir}/librsvg-2.47.0/vendor/pkg-config/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.47.0/vendor/pkg-config/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/3b042d3d971924ec0296687efd50dbe08b734976
+cp %{_builddir}/librsvg-2.47.0/vendor/ppv-lite86/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/088830dcb78eba1a2052df69bd5cba5445e8f2d7
+cp %{_builddir}/librsvg-2.47.0/vendor/ppv-lite86/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/e1c86f32641f01a5b85d6e9b20138e8470b883fc
 cp %{_builddir}/librsvg-2.47.0/vendor/precomputed-hash/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/afcd08e00b65f2380ab5b0aa0217e8d62aa3cb2a
 cp %{_builddir}/librsvg-2.47.0/vendor/proc-macro2/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.47.0/vendor/proc-macro2/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/3b042d3d971924ec0296687efd50dbe08b734976
@@ -578,6 +579,7 @@ popd
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/librsvg/01a6b4bf79aca9b556822601186afab86e8c4fbf
 /usr/share/package-licenses/librsvg/02bf11a87b9bbacedf2fcf4856af3b933faef82e
+/usr/share/package-licenses/librsvg/088830dcb78eba1a2052df69bd5cba5445e8f2d7
 /usr/share/package-licenses/librsvg/0fe9379fe01cd1deeed3046c4032f1c1be8aa594
 /usr/share/package-licenses/librsvg/108bb98fdf8f27765ea240d80481be8362175ca7
 /usr/share/package-licenses/librsvg/144111aa0f14ef5a181326683aa9ebbd9252bca6
@@ -646,6 +648,7 @@ popd
 /usr/share/package-licenses/librsvg/da31fe66a3349c85f4ca594c232d82ac4f02a76b
 /usr/share/package-licenses/librsvg/dd445710e6e4caccc4f8a587a130eaeebe83f6f6
 /usr/share/package-licenses/librsvg/e082d0438f395b9128436ab6628c7a96c009426d
+/usr/share/package-licenses/librsvg/e1c86f32641f01a5b85d6e9b20138e8470b883fc
 /usr/share/package-licenses/librsvg/e5c5af8ddef19fbd109a06b28365d6ab491c5a38
 /usr/share/package-licenses/librsvg/e6d32072ef5f584a805b429ecbd4eec428316dde
 /usr/share/package-licenses/librsvg/e9b475b5dccf14bd66d72dd12a04db75eaad1a9e
