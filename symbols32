@@ -37,6 +37,7 @@ librsvg-2.so.2:rsvg_handle_set_base_uri
 librsvg-2.so.2:rsvg_handle_set_dpi
 librsvg-2.so.2:rsvg_handle_set_dpi_x_y
 librsvg-2.so.2:rsvg_handle_set_size_callback
+librsvg-2.so.2:rsvg_handle_set_stylesheet
 librsvg-2.so.2:rsvg_handle_write
 librsvg-2.so.2:rsvg_init
 librsvg-2.so.2:rsvg_pixbuf_from_file
@@ -75,6 +76,7 @@ librsvg-2.so.2:rsvg_rust_handle_set_base_url
 librsvg-2.so.2:rsvg_rust_handle_set_dpi_x
 librsvg-2.so.2:rsvg_rust_handle_set_dpi_y
 librsvg-2.so.2:rsvg_rust_handle_set_size_callback
+librsvg-2.so.2:rsvg_rust_handle_set_stylesheet
 librsvg-2.so.2:rsvg_rust_handle_set_testing
 librsvg-2.so.2:rsvg_rust_handle_write
 librsvg-2.so.2:rsvg_rust_pixbuf_from_file_at_max_size
