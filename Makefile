@@ -1,5 +1,5 @@
 PKG_NAME := librsvg
-URL = https://download.gnome.org/sources/librsvg/2.48/librsvg-2.48.0.tar.xz
+URL = https://download.gnome.org/sources/librsvg/2.48/librsvg-2.48.1.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
