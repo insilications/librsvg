@@ -1,3 +1,17 @@
+Version 2.48.3
+
+- Librsvg now requires glib 2.50.0 or later.
+
+- rsvg-convert's --background-color option now accepts colors with
+  transparency like #rrggbbaa, rgba(...), hsla(...); the transparency
+  value was ignored before (Hao Guan).
+
+- #584 - Fix arithmetic overflow when rendering to large GdkPixbufs.
+
+- #582 - Make librsvg build with Rust 1.39 again.
+
+- #581 - Don't require upcalls into C code for Debian powerpc.
+
 Version 2.48.2
 
 - Fix linking of the test suite against Harfbuzz.
