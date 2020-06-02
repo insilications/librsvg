@@ -1,3 +1,47 @@
+Version 2.49.0
+
+- Memory consumption of parsed SVG data is greatly reduced.  Property
+  values, path data, and text nodes now use much less memory than
+  before.  Thanks to Sergey "Shnatsel" Davidoff and Adam Reichold for
+  their contributions.
+
+- With that reduction in memory consumption, librsvg can now load up
+  to 1 million XML elements.  This is a hard limit to avoid malicious
+  files consuming arbitrary amounts of memory.
+
+- #508 - radialGradient now supports the "fr" property from SVG2
+  (Dunja Lalic, Corentin Rossignon).
+
+- Sven Neumann has written a fantastic test suite for rsvg-convert(1).
+  Now we can modify this program with confidence.
+
+- Many, many cleanups (Paolo Borelli).
+
+- #594 - Only compute locale information for elements that need it.
+
+- As usual, thanks to Bastien Orivel for keeping dependent crates updated.
+
+- Fix Windows builds without PangoFT2.
+
+- Benchmarks of internal functions work now.  You can run "cargo bench"
+  in librsvg/ and rsvg_internals/.
+
+Version 2.48.5
+
+- #577 - Support multiple fonts in the font-family property (Bastien Orivel).
+  Previously in font-family="Foo, Bar, Baz" only Foo would get used.
+
+- #591 - Catch overflow when rendering files with a huge viewBox.
+
+- #593 - Don't panic with an empty objectBoundingBox for a mask.
+
+- #596 - Fix introspection data for rsvg_handle_set_stylesheet (Sutou Kouhei).
+
+- Fixes to the librsvg_crate documentation (Abraham Toriz).
+
+- Loading raster images for inclusion in an SVG and producing
+  GdkPixbufs is now faster.
+
 Version 2.48.4
 
 - #590 - Fix regression when rendering masks.
@@ -181,11 +225,10 @@ Version 2.47.0
   get resolved once now; this should make things marginally faster for
   patterns or gradients with fallbacks.
 
-- #515 (CVE-2019-20446) - Librsvg now has limits on the number of
-  loaded XML elements, and the number of referenced elements within an
-  SVG document.  This is to mitigate malicious SVGs which try to
-  consume all memory, and those which try to consume an exponential
-  amount of CPU time.
+- #515 - Librsvg now has limits on the number of loaded XML elements,
+  and the number of referenced elements within an SVG document.  This
+  is to mitigate malicious SVGs which try to consume all memory, and
+  those which try to consume an exponential amount of CPU time.
 
 - #521 - Compute geometries correctly if there is a viewBox attribute.
 
@@ -197,43 +240,11 @@ Version 2.47.0
   get resolved once now; this should make things marginally faster for
   patterns or gradients with fallbacks.
 
-- #506 - Fix empty patterns which reference a fallback pattern with
-  children.
+- #515 - Librsvg now has limits on the number of loaded XML elements,
+  and the number of referenced elements within an SVG document.  This
+  is to mitigate malicious SVGs which try to consume all memory, and
+  those which try to consume an exponential amount of CPU time.
 
-Version 2.46.4
-
-- #524 - Panic when reading an invalid stylesheet URL in an XML
-  processing instruction (Paolo Borelli)
-
-- #525 - Consider specificity when applying CSS selector matches.
-
-- #504 - Provide an usage example in the librsvg crate docs.
-
-Version 2.46.3
-
-- #516 - Fix inadvertent bump in the minimum Rust version required.  The
-  string_cache crate is now pinned to a version that still works on
-  Rust 1.34.  (Jordan Petridis)
-
-- #521 - Compute geometries correctly if there is a viewBox attribute.
-
-- #308 - Fix stack exhaustion with circular references in <use> elements.
-
-- Consistently use the LGPL 2.1 wherever it is mentioned.
-
-Version 2.46.2
-
-- Patterns and gradients reused across more than one element will only
-  get resolved once now; this should make things marginally faster for
-  patterns or gradients with fallbacks.
-
-- #515 (CVE-2019-20446) - Librsvg now has limits on the number of
-  loaded XML elements, and the number of referenced elements within an
-  SVG document.  This is to mitigate malicious SVGs which try to
-  consume all memory, and those which try to consume an exponential
-  amount of CPU time.
-
-Version 2.46.1
 - #506 - Fix empty patterns which reference a fallback pattern with
   children.
 
