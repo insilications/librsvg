@@ -4,7 +4,7 @@
 #
 Name     : librsvg
 Version  : 2.50.0
-Release  : 57
+Release  : 58
 URL      : https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.0.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.0.tar.xz
 Summary  : library that renders svg files
@@ -17,48 +17,24 @@ Requires: librsvg-license = %{version}-%{release}
 Requires: librsvg-locales = %{version}-%{release}
 Requires: librsvg-man = %{version}-%{release}
 BuildRequires : atk-dev
-BuildRequires : atk-dev32
 BuildRequires : buildreq-gnome
 BuildRequires : docbook-xml
 BuildRequires : freetype-dev
-BuildRequires : freetype-dev32
 BuildRequires : fribidi-dev
-BuildRequires : fribidi-dev32
-BuildRequires : gcc-dev32
-BuildRequires : gcc-libgcc32
-BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
-BuildRequires : glibc-dev32
-BuildRequires : glibc-libc32
 BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : gtk3-dev
-BuildRequires : gtk3-dev32
 BuildRequires : libpng-dev
-BuildRequires : libpng-dev32
 BuildRequires : libxslt-bin
 BuildRequires : pango-dev
-BuildRequires : pango-dev32
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
-BuildRequires : pkgconfig(32cairo)
-BuildRequires : pkgconfig(32cairo-gobject)
-BuildRequires : pkgconfig(32cairo-png)
-BuildRequires : pkgconfig(32fontconfig)
-BuildRequires : pkgconfig(32freetype2)
-BuildRequires : pkgconfig(32gdk-pixbuf-2.0)
-BuildRequires : pkgconfig(32gio-2.0)
-BuildRequires : pkgconfig(32gio-unix-2.0)
-BuildRequires : pkgconfig(32glib-2.0)
-BuildRequires : pkgconfig(32gmodule-2.0)
-BuildRequires : pkgconfig(32gthread-2.0)
 BuildRequires : pkgconfig(32harfbuzz)
 BuildRequires : pkgconfig(32libcroco-0.6)
 BuildRequires : pkgconfig(32libxml-2.0)
-BuildRequires : pkgconfig(32pangocairo)
-BuildRequires : pkgconfig(32pangoft2)
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(cairo-gobject)
 BuildRequires : pkgconfig(cairo-png)
@@ -79,7 +55,6 @@ BuildRequires : rust-std32
 BuildRequires : rustc
 BuildRequires : vala
 BuildRequires : zlib-dev
-BuildRequires : zlib-dev32
 
 %description
 Test data was taken from the Go distribution, which was in turn taken from the
@@ -116,18 +91,6 @@ Requires: librsvg = %{version}-%{release}
 dev components for the librsvg package.
 
 
-%package dev32
-Summary: dev32 components for the librsvg package.
-Group: Default
-Requires: librsvg-lib32 = %{version}-%{release}
-Requires: librsvg-bin = %{version}-%{release}
-Requires: librsvg-data = %{version}-%{release}
-Requires: librsvg-dev = %{version}-%{release}
-
-%description dev32
-dev32 components for the librsvg package.
-
-
 %package doc
 Summary: doc components for the librsvg package.
 Group: Documentation
@@ -145,16 +108,6 @@ Requires: librsvg-license = %{version}-%{release}
 
 %description lib
 lib components for the librsvg package.
-
-
-%package lib32
-Summary: lib32 components for the librsvg package.
-Group: Default
-Requires: librsvg-data = %{version}-%{release}
-Requires: librsvg-license = %{version}-%{release}
-
-%description lib32
-lib32 components for the librsvg package.
 
 
 %package license
@@ -184,16 +137,13 @@ man components for the librsvg package.
 %prep
 %setup -q -n librsvg-2.50.0
 cd %{_builddir}/librsvg-2.50.0
-pushd ..
-cp -a librsvg-2.50.0 build32
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1599836373
+export SOURCE_DATE_EPOCH=1600276126
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -205,26 +155,15 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-stron
 %configure --disable-static --enable-introspection --enable-vala
 make  %{?_smp_mflags}
 
-pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-%configure --disable-static --enable-introspection --enable-vala ; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --enable-introspection  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make  %{?_smp_mflags}   CARGO_TARGET_ARGS=--target=i586-unknown-linux-gnu
-popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
-cd ../build32;
-make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1599836373
+export SOURCE_DATE_EPOCH=1600276126
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp %{_builddir}/librsvg-2.50.0/COPYING.LIB %{buildroot}/usr/share/package-licenses/librsvg/01a6b4bf79aca9b556822601186afab86e8c4fbf
@@ -246,6 +185,8 @@ cp %{_builddir}/librsvg-2.50.0/vendor/bstr/LICENSE-APACHE %{buildroot}/usr/share
 cp %{_builddir}/librsvg-2.50.0/vendor/bstr/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/99b5dc64e06bf0354ef3baac0ea25c929e4e3a9a
 cp %{_builddir}/librsvg-2.50.0/vendor/bumpalo/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.50.0/vendor/bumpalo/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/0a1e89ac22450cb0311baa2613bc21b7131b321f
+cp %{_builddir}/librsvg-2.50.0/vendor/bytemuck/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/9e132ef44ef2f5e72f4e3681765591005694515e
+cp %{_builddir}/librsvg-2.50.0/vendor/bytemuck/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/c0fdcaf865e72e561df7eec232f6ea49322ea360
 cp %{_builddir}/librsvg-2.50.0/vendor/byteorder/COPYING %{buildroot}/usr/share/package-licenses/librsvg/dd445710e6e4caccc4f8a587a130eaeebe83f6f6
 cp %{_builddir}/librsvg-2.50.0/vendor/byteorder/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/4c8990add9180fc59efa5b0d8faf643c9709501e
 cp %{_builddir}/librsvg-2.50.0/vendor/byteorder/UNLICENSE %{buildroot}/usr/share/package-licenses/librsvg/ff007ce11f3ff7964f1a5b04202c4e95b5c82c85
@@ -555,21 +496,11 @@ cp %{_builddir}/librsvg-2.50.0/vendor/winapi/LICENSE-APACHE %{buildroot}/usr/sha
 cp %{_builddir}/librsvg-2.50.0/vendor/winapi/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/2243f7a86daaa727d34d92e987a741036f288464
 cp %{_builddir}/librsvg-2.50.0/vendor/xml5ever/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.50.0/vendor/xml5ever/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/7f358d75b6f5bd544ce84621510900e11b27d3ba
-pushd ../build32/
-%make_install32
-if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
-then
-pushd %{buildroot}/usr/lib32/pkgconfig
-for i in *.pc ; do ln -s $i 32$i ; done
-popd
-fi
-popd
 %make_install
 %find_lang librsvg
 
 %files
 %defattr(-,root,root,-)
-/usr/lib32/girepository-1.0/Rsvg-2.0.typelib
 
 %files bin
 %defattr(-,root,root,-)
@@ -589,12 +520,6 @@ popd
 /usr/include/librsvg-2.0/librsvg/rsvg.h
 /usr/lib64/librsvg-2.so
 /usr/lib64/pkgconfig/librsvg-2.0.pc
-
-%files dev32
-%defattr(-,root,root,-)
-/usr/lib32/librsvg-2.so
-/usr/lib32/pkgconfig/32librsvg-2.0.pc
-/usr/lib32/pkgconfig/librsvg-2.0.pc
 
 %files doc
 %defattr(0644,root,root,0755)
@@ -628,12 +553,6 @@ popd
 /usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
 /usr/lib64/librsvg-2.so.2
 /usr/lib64/librsvg-2.so.2.47.0
-
-%files lib32
-%defattr(-,root,root,-)
-/usr/lib32/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
-/usr/lib32/librsvg-2.so.2
-/usr/lib32/librsvg-2.so.2.47.0
 
 %files license
 %defattr(0644,root,root,0755)
@@ -707,6 +626,7 @@ popd
 /usr/share/package-licenses/librsvg/999d830bf37b3d283a81b523a975ab286fd90ee3
 /usr/share/package-licenses/librsvg/99b5dc64e06bf0354ef3baac0ea25c929e4e3a9a
 /usr/share/package-licenses/librsvg/9a2b6b4ad55ec42cf19fc686c74668d3a6303ae7
+/usr/share/package-licenses/librsvg/9e132ef44ef2f5e72f4e3681765591005694515e
 /usr/share/package-licenses/librsvg/9f021a3778be8e7414e81123679384b543612e7b
 /usr/share/package-licenses/librsvg/9f3c36d2b7d381d9cf382a00166f3fbd06783636
 /usr/share/package-licenses/librsvg/a00165152c82ea55b9fc254890dc8860c25e3bb6
@@ -721,6 +641,7 @@ popd
 /usr/share/package-licenses/librsvg/b18f451b891c20c5648f7a3034908508f49f015b
 /usr/share/package-licenses/librsvg/b6701831988d077f53d90abce09a2887fc7b5ea9
 /usr/share/package-licenses/librsvg/b95542c0be3bd915a1e7d8df80711fce5cd0795b
+/usr/share/package-licenses/librsvg/c0fdcaf865e72e561df7eec232f6ea49322ea360
 /usr/share/package-licenses/librsvg/c145b1a607ecf06aed81f1d04a65c2e43dffdc63
 /usr/share/package-licenses/librsvg/c1e917ff061859e1db80a17a26071569d0e9ee4c
 /usr/share/package-licenses/librsvg/c5af5501a367480504c8f5e55c82a3d76105a72a
