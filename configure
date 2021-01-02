@@ -1,1 +1,2 @@
---enable-introspection --enable-vala
+--enable-introspection
+--enable-vala

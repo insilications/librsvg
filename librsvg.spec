@@ -4,12 +4,12 @@
 #
 Name     : librsvg
 Version  : 2.50.2
-Release  : 62
+Release  : 63
 URL      : https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.2.tar.xz
 Source0  : https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.2.tar.xz
 Summary  : library that renders svg files
 Group    : Development/Tools
-License  : 0BSD Apache-2.0 BSD-3-Clause BSL-1.0 ICU LGPL-2.1 MIT MPL-2.0-no-copyleft-exception Unlicense Zlib
+License  : 0BSD Apache-2.0 BSD-3-Clause BSL-1.0 ICU LGPL-2.1 MIT MPL-2.0-no-copyleft-exception Unicode-DFS-2016 Unlicense Zlib
 Requires: librsvg-bin = %{version}-%{release}
 Requires: librsvg-data = %{version}-%{release}
 Requires: librsvg-lib = %{version}-%{release}
@@ -138,7 +138,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1605922914
+export SOURCE_DATE_EPOCH=1609550304
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -147,7 +147,8 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -m
 export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
-%configure --disable-static --enable-introspection --enable-vala
+%configure --disable-static --enable-introspection \
+--enable-vala
 make  %{?_smp_mflags}
 
 %check
@@ -158,7 +159,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1605922914
+export SOURCE_DATE_EPOCH=1609550304
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/librsvg
 cp %{_builddir}/librsvg-2.50.2/COPYING.LIB %{buildroot}/usr/share/package-licenses/librsvg/01a6b4bf79aca9b556822601186afab86e8c4fbf
@@ -181,6 +182,7 @@ cp %{_builddir}/librsvg-2.50.2/vendor/bitflags/LICENSE-MIT %{buildroot}/usr/shar
 cp %{_builddir}/librsvg-2.50.2/vendor/bstr/COPYING %{buildroot}/usr/share/package-licenses/librsvg/93e25f7a8d77fb5a09acece508d3651054a1b123
 cp %{_builddir}/librsvg-2.50.2/vendor/bstr/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.50.2/vendor/bstr/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/99b5dc64e06bf0354ef3baac0ea25c929e4e3a9a
+cp %{_builddir}/librsvg-2.50.2/vendor/bstr/src/unicode/data/LICENSE-UNICODE %{buildroot}/usr/share/package-licenses/librsvg/c4f8de16c29dc84a94d610b716fb1c9c7f143582
 cp %{_builddir}/librsvg-2.50.2/vendor/bumpalo/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.50.2/vendor/bumpalo/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/0a1e89ac22450cb0311baa2613bc21b7131b321f
 cp %{_builddir}/librsvg-2.50.2/vendor/bytemuck/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/9e132ef44ef2f5e72f4e3681765591005694515e
@@ -312,6 +314,7 @@ cp %{_builddir}/librsvg-2.50.2/vendor/miniz_oxide-0.3.7/LICENSE %{buildroot}/usr
 cp %{_builddir}/librsvg-2.50.2/vendor/miniz_oxide/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/18d7fe3c54698817feec1f2e04a9d5a0f046a80c
 cp %{_builddir}/librsvg-2.50.2/vendor/miniz_oxide/LICENSE-APACHE.md %{buildroot}/usr/share/package-licenses/librsvg/598f87f072f66e2269dd6919292b2934dbb20492
 cp %{_builddir}/librsvg-2.50.2/vendor/miniz_oxide/LICENSE-MIT.md %{buildroot}/usr/share/package-licenses/librsvg/18d7fe3c54698817feec1f2e04a9d5a0f046a80c
+cp %{_builddir}/librsvg-2.50.2/vendor/miniz_oxide/LICENSE-ZLIB.md %{buildroot}/usr/share/package-licenses/librsvg/11f0f1bee61ba6393c3dc7aefee7b92b604ff6c0
 cp %{_builddir}/librsvg-2.50.2/vendor/nalgebra/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/3669eaaf397f72c15424279dd618e4cc8976051a
 cp %{_builddir}/librsvg-2.50.2/vendor/new_debug_unreachable/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/108bb98fdf8f27765ea240d80481be8362175ca7
 cp %{_builddir}/librsvg-2.50.2/vendor/nodrop/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
@@ -456,7 +459,10 @@ cp %{_builddir}/librsvg-2.50.2/vendor/time/LICENSE-MIT %{buildroot}/usr/share/pa
 cp %{_builddir}/librsvg-2.50.2/vendor/tinytemplate/LICENSE-APACHE %{buildroot}/usr/share/package-licenses/librsvg/5798832c31663cedc1618d18544d445da0295229
 cp %{_builddir}/librsvg-2.50.2/vendor/tinytemplate/LICENSE-MIT %{buildroot}/usr/share/package-licenses/librsvg/5875ddc227c505ff2ad6e06538e1d72d403b9060
 cp %{_builddir}/librsvg-2.50.2/vendor/tinyvec-0.3.4/LICENSE-ZLIB.md %{buildroot}/usr/share/package-licenses/librsvg/9a00b14a56488f555c9ddecdc261e1b4daffb5b8
+cp %{_builddir}/librsvg-2.50.2/vendor/tinyvec/LICENSE-APACHE.md %{buildroot}/usr/share/package-licenses/librsvg/0e2ed3dbb977b8547026b4a3f01869ff2df9dfc9
+cp %{_builddir}/librsvg-2.50.2/vendor/tinyvec/LICENSE-MIT.md %{buildroot}/usr/share/package-licenses/librsvg/ee70bf5efb387a6c52c0f5cbea4122c6a74a57bb
 cp %{_builddir}/librsvg-2.50.2/vendor/tinyvec/LICENSE-ZLIB.md %{buildroot}/usr/share/package-licenses/librsvg/59b5efd50c4508e7fa74828e7469187bbe5bd864
+cp %{_builddir}/librsvg-2.50.2/vendor/tinyvec_macros/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/86d193cb6b24df990cbbaf67c6a24fddbcb574c1
 cp %{_builddir}/librsvg-2.50.2/vendor/treeline/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/19b4f6d5815ac866d69353dd925e66db58a24a77
 cp %{_builddir}/librsvg-2.50.2/vendor/typenum/LICENSE %{buildroot}/usr/share/package-licenses/librsvg/5984f5244c7bc13bf15a5bea823c04ec0bbc714f
 cp %{_builddir}/librsvg-2.50.2/vendor/unicode-bidi/COPYRIGHT %{buildroot}/usr/share/package-licenses/librsvg/871b9912ab96cf7d79cb8ae83ca0b08cd5d0cbfd
@@ -569,8 +575,10 @@ cp %{_builddir}/librsvg-2.50.2/vendor/xml5ever/LICENSE-MIT %{buildroot}/usr/shar
 /usr/share/package-licenses/librsvg/067f31555f328efb78075174add7db97d98618c6
 /usr/share/package-licenses/librsvg/088830dcb78eba1a2052df69bd5cba5445e8f2d7
 /usr/share/package-licenses/librsvg/0a1e89ac22450cb0311baa2613bc21b7131b321f
+/usr/share/package-licenses/librsvg/0e2ed3dbb977b8547026b4a3f01869ff2df9dfc9
 /usr/share/package-licenses/librsvg/0fe9379fe01cd1deeed3046c4032f1c1be8aa594
 /usr/share/package-licenses/librsvg/108bb98fdf8f27765ea240d80481be8362175ca7
+/usr/share/package-licenses/librsvg/11f0f1bee61ba6393c3dc7aefee7b92b604ff6c0
 /usr/share/package-licenses/librsvg/1299388f703aa63092d01668958767dc0f0ef3a3
 /usr/share/package-licenses/librsvg/144111aa0f14ef5a181326683aa9ebbd9252bca6
 /usr/share/package-licenses/librsvg/18d7fe3c54698817feec1f2e04a9d5a0f046a80c
@@ -625,6 +633,7 @@ cp %{_builddir}/librsvg-2.50.2/vendor/xml5ever/LICENSE-MIT %{buildroot}/usr/shar
 /usr/share/package-licenses/librsvg/81fb6c414c8a8cde5adc2b1b043ca735b67c48d2
 /usr/share/package-licenses/librsvg/82c40cb8ef2b20a67619649a63762bebfe711480
 /usr/share/package-licenses/librsvg/83f84f78511c0e3dc95622f9a0b6e151a9ae4ea5
+/usr/share/package-licenses/librsvg/86d193cb6b24df990cbbaf67c6a24fddbcb574c1
 /usr/share/package-licenses/librsvg/871b9912ab96cf7d79cb8ae83ca0b08cd5d0cbfd
 /usr/share/package-licenses/librsvg/88b026af7175e69876c3c75a748724353bad2230
 /usr/share/package-licenses/librsvg/8f178d4cc55689ebdd562cabb1282e33bf8f32fe
@@ -656,6 +665,7 @@ cp %{_builddir}/librsvg-2.50.2/vendor/xml5ever/LICENSE-MIT %{buildroot}/usr/shar
 /usr/share/package-licenses/librsvg/c0fdcaf865e72e561df7eec232f6ea49322ea360
 /usr/share/package-licenses/librsvg/c145b1a607ecf06aed81f1d04a65c2e43dffdc63
 /usr/share/package-licenses/librsvg/c1e917ff061859e1db80a17a26071569d0e9ee4c
+/usr/share/package-licenses/librsvg/c4f8de16c29dc84a94d610b716fb1c9c7f143582
 /usr/share/package-licenses/librsvg/c5af5501a367480504c8f5e55c82a3d76105a72a
 /usr/share/package-licenses/librsvg/c61640f6c218caf86d1b8072e09668a8362dba04
 /usr/share/package-licenses/librsvg/cb74eb831db08b7fe98f84b59c9bda195e5a3588
@@ -674,6 +684,7 @@ cp %{_builddir}/librsvg-2.50.2/vendor/xml5ever/LICENSE-MIT %{buildroot}/usr/shar
 /usr/share/package-licenses/librsvg/ea4215a6204b8414db6209c378a78a2dfb91c9ee
 /usr/share/package-licenses/librsvg/ea6b3b8dafcd9331dd88deb15dc9d4fb91ddd386
 /usr/share/package-licenses/librsvg/ec9737a4e769cce48d5c95d9c75a4ba5f29a2563
+/usr/share/package-licenses/librsvg/ee70bf5efb387a6c52c0f5cbea4122c6a74a57bb
 /usr/share/package-licenses/librsvg/f137043e018f2024e0414a9153ea728c203ae8e5
 /usr/share/package-licenses/librsvg/f14afa20edce530124d39cd56312c7781c19b267
 /usr/share/package-licenses/librsvg/f218d448a9934e1982ea7e03a0b4feab2db3bb54

@@ -1,20 +1,13 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
 atk-dev
-atk-dev
 freetype-dev
-freetype-dev
-fribidi-dev
 fribidi-dev
 gobject-introspection
 gobject-introspection-dev
 gtk3-dev
-gtk3-dev
 libpng-dev
-libpng-dev
-pango-dev
 pango-dev
 rust-std32
 rustc
-zlib-dev
 zlib-dev
