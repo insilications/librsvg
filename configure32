@@ -1,1 +1,1 @@
-; sed -i 's|cross_compiling=no|cross_compiling=yes|' configure ; ./configure RUST_TARGET=i586-unknown-linux-gnu --enable-introspection
+--enable-introspection RUST_TARGET=i686-unknown-linux-gnu

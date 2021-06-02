@@ -1,8 +1,10 @@
 # This file contains pkgconfig build requirements that get picked up
 # but are undesirable. One entry per line, no whitespace.
-gio-windows-2.0
-gtk+-3.0
-\	gdk-pixbuf-2.0
+32cairo
+32cairo-gobject
+32cairo-png
+32gdk-pixbuf-2.0
 32gio-windows-2.0
-32gtk+-3.0
-32\	gdk-pixbuf-2.0
+32pangocairo
+32pangoft2
+gio-windows-2.0

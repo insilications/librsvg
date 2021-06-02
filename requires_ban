@@ -1,2 +1,35 @@
 # This file contains runtime requirements that get picked up but are
 # undesirable. One entry per line, no whitespace.
+cairo-rs
+cairo-sys-rs
+cast
+chrono
+clap
+cssparser
+data-url
+encoding
+float-cmp
+gdk-pixbuf-sys
+gio
+gio-sys
+glib-sys
+gobject-sys
+itertools
+language-tags
+libc
+locale_config
+markup5ever
+nalgebra
+num-traits
+once_cell
+pango-sys
+pangocairo
+rayon
+rctree
+rgb
+selectors
+string_cache
+tinyvec
+url
+xml5ever
+cargo
