@@ -1,0 +1,7 @@
+export CFLAGS="-m32 -O3 -pipe -fPIC -m32 -mstackrealign -fomit-frame-pointer -fstrict-aliasing -ffast-math -march=native -Wall -fexceptions"
+export FCFLAGS="-m32 -O3 -pipe -fPIC -m32 -mstackrealign -fomit-frame-pointer -fstrict-aliasing -ffast-math -march=native -Wall -fexceptions"
+export FFLAGS="-m32 -O3 -pipe -fPIC -m32 -mstackrealign -fomit-frame-pointer -fstrict-aliasing -ffast-math -march=native -Wall -fexceptions"
+export CXXFLAGS="-m32 -O3 -fvisibility-inlines-hidden -pipe -fPIC -m32 -mstackrealign -fomit-frame-pointer -fstrict-aliasing -ffast-math -march=native -Wall -fexceptions"
+export LDFLAGS="-m32 -O3 -pipe -fPIC -m32 -mstackrealign -fomit-frame-pointer -fstrict-aliasing -ffast-math -march=native -Wall -fexceptions"
+#
+%global _lto_cflags %{nil}
